@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StyledJsxRegistry from "./utils/registry";
 import GlobalStyle from "./components/styles/GlobalStyles";
 import Sidebar from "./components/ui/Sidebar";
@@ -9,10 +9,16 @@ import BaseUI from "./components/ui/BaseUI";
 import { GoSignOut } from "react-icons/go";
 import Breadcrumb from "./components/ui/Breadcrumb";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { get } from "react-hook-form";
 
 const LayoutWrapper = ({ children }) => {
   const queryClient = new QueryClient();
-  const pathName = usePathname();
+  const [pathName, setPathName] = useState(usePathname());
+  const path = usePathname();
+  useEffect(() => {
+    setPathName(path);
+  }, [pathName, path]);
+
   console.log(pathName);
   return (
     <LayoutWrapperStyle $hide={pathName === "/login"}>
