@@ -2,7 +2,7 @@
 import React, { use } from "react";
 import styled from "styled-components";
 import logo from "../../public/logo.png";
-
+import bg from "@/public/login_bg.png";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -46,8 +46,8 @@ const page = () => {
     <LoginStyle>
       <div className="login-image">
         <Image
-          src="/login_bg.png"
-          priority={true}
+          src={bg}
+          priority
           fill
           sizes="100vw"
           alt="logo"
