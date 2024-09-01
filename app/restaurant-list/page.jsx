@@ -61,7 +61,7 @@ const page = () => {
   const { data: ownerList } = useGetOwnerListQuery();
   const {
     data: addData,
-    mutateAsync,
+    mutateAsync: addMuteAsync,
     isSuccess: isSuccessPost,
   } = useAddRestaurantMutation();
   const {
@@ -90,7 +90,7 @@ const page = () => {
 
       ...data,
     };
-    mutateAsync(payload);
+    addMuteAsync(payload);
     if (isSuccessPost) {
       closeModal();
     }
@@ -128,7 +128,7 @@ const page = () => {
       });
       setTableData(customTableData);
     }
-  }, [restaurantList, isSuccessPost]);
+  }, [restaurantList]);
 
   return (
     <RestaurantListPageStyle>
