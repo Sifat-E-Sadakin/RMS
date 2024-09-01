@@ -4,12 +4,13 @@ import StyledJsxRegistry from "./utils/registry";
 import GlobalStyle from "./components/styles/GlobalStyles";
 import Sidebar from "./components/ui/Sidebar";
 import styled from "styled-components";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname, useRouter } from "next/navigation";
 import BaseUI from "./components/ui/BaseUI";
 import { GoSignOut } from "react-icons/go";
 import Breadcrumb from "./components/ui/Breadcrumb";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { get } from "react-hook-form";
+import Cookies from "js-cookie";
 
 const LayoutWrapper = ({ children }) => {
   const queryClient = new QueryClient();
@@ -20,6 +21,14 @@ const LayoutWrapper = ({ children }) => {
   }, [path, pathName]);
 
   console.log(pathName);
+
+  const logout = () => {
+    console.log("logout");
+    Cookies.remove("access");
+    Cookies.remove("refresh");
+    Cookies.remove("username");
+    window.location.href = "/login";
+  };
   return (
     <LayoutWrapperStyle $hide={pathName === "/login"}>
       <QueryClientProvider client={queryClient}>
@@ -34,7 +43,7 @@ const LayoutWrapper = ({ children }) => {
                 <div className="header-box">
                   <h1>Restaurant Management System</h1>
                   <div className="sign-out-icon">
-                    <GoSignOut />
+                    <GoSignOut onClick={() => logout()} />
                   </div>
                 </div>
               </BaseUI>

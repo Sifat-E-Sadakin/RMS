@@ -6,22 +6,43 @@ import BasicBtn from "../components/styles/BasicBtn";
 import SearchBox from "../components/ui/SearchBox";
 import BasicTable from "../components/ui/BasicTable";
 import BasicSelect from "../components/ui/BasicSelect";
-import { useGetEmployeeListQuery } from "@/store/store";
+import {
+  useDeleteEmployeeMutation,
+  useGetEmployeeListQuery,
+} from "@/store/store";
+import BasicModal from "../components/ui/BasicModal";
+import DisableBtn from "../components/styles/DisableBtn";
+import DangerBtn from "../components/styles/DangerBtn";
 
 const page = () => {
   const [modalName, setModalName] = useState("");
   const [show, setShow] = useState(true);
   const [tableData, setTableData] = useState([]);
+  const [employeeId, setEmployeeId] = useState(null);
 
   const { data: employeeList, refetch } = useGetEmployeeListQuery();
-  const openModal = name => {
+  const {
+    data: deleteEmployee,
+    mutateAsync: deleteMuteAsync,
+    isSuccess: isSuccessDelete,
+  } = useDeleteEmployeeMutation(employeeId);
+  const openModal = (name, id) => {
     setShow(true);
     setModalName(name);
+    setEmployeeId(id);
     console.log(name);
   };
   const closeModal = () => setShow(false);
 
   const tableHeader = ["Name", "Salary", "Email", "Action"];
+
+  const onDelete = () => {
+    deleteMuteAsync();
+  };
+
+  if (isSuccessDelete) {
+    refetch();
+  }
 
   useEffect(() => {
     if (employeeList) {
@@ -80,6 +101,23 @@ const page = () => {
           </div>
         </div>
       </BaseUI>
+      {modalName === "delete" ? (
+        <BasicModal show={show} closeModal={closeModal}>
+          <div className="modal-content-wrapper">
+            <div className="modal-header">
+              <h2>Warning</h2>
+              <button onClick={() => closeModal()}>X</button>
+            </div>
+            <div className="modal-body">
+              <p>Are you sure you want to delete this restaurant?</p>
+              <div className="btn-group">
+                <DisableBtn click={() => closeModal()}>Cancel</DisableBtn>
+                <DangerBtn click={() => onDelete()}>Delete</DangerBtn>
+              </div>
+            </div>
+          </div>
+        </BasicModal>
+      ) : null}
     </EmployeeListPageStyle>
   );
 };
@@ -135,6 +173,88 @@ const EmployeeListPageStyle = styled.div`
         }
 
     }
+    .modal-content-wrapper{
+        .modal-header{
+            display: flex;
+            justify-content: space-between;
+            h2{
+                font-size: 18px;
+                font-weight: 600;
+                color: #0b0b0b;
+            }
+            button{
+                background-color: #f8f7fa;
+                border: none;
+                border-radius: 5px;
+                padding: 5px 10px;
+                cursor: pointer;
+            }
+        }
+        .modal-body{
+            margin-top: 20px;
+            form{
+                .form-group{
+                  
+                    display: flex;
+                    flex-direction: column;
+
+                    label{
+                        font-size: 14px;
+                        color: #0b0b0b;
+                        margin-bottom: 4px;
+                    }
+                    input{
+                        display: flex;
+                        
+                        height: auto;
+                        padding: 10px 14px;
+                        border-radius: 4px;
+                        
+                        font-size: 14px;
+                        font-weight: 300;
+                        color: #1d1d1b;
+                        border: 1px solid #a19c9c;
+                    }
+                }
+                .btn-wrapper{
+                    text-align: center;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: calc(100% );
+                    margin-top: 20px;
+                    button{
+                        width: 100%;
+                        height: auto;
+                        background-color: #2963A2;
+                        /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+                        color: #FFFFFF;
+                        font-size: 16px;
+                        font-weight: 600;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        transition: 0.3s;
+                        &:hover{
+                            background-color: #1b4f7f;
+                        }
+                    }
+                }
+            }
+            p{
+                font-size: 14px;
+                color: #0b0b0b;
+
+            }
+            .btn-group{
+                display: flex;
+                justify-content: end;
+                gap: 16px;
+                margin-top: 20px;
+
+        }
+    }
+}
 
 `;
 export default page;

@@ -47,6 +47,7 @@ const page = () => {
       <div className="login-image">
         <Image
           src="/login_bg.png"
+          priority={true}
           fill
           sizes="100vw"
           alt="logo"

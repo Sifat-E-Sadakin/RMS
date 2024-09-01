@@ -44,14 +44,7 @@ const page = () => {
   const closeModal = () => setShow(false);
 
   const tableHeader = ["Restaurant Name", "Action"];
-  // const tableData = [
-  //   ["KFC", "action"],
-  //   ["McDonald", "action"],
-  //   ["Pizza Hut", "action"],
-  //   ["Burger King", "action"],
-  //   ["Domino's Pizza", "action"],
-  //   ["Subway", "action"],
-  // ];
+
   const {
     data: restaurantList,
     error,
@@ -91,9 +84,7 @@ const page = () => {
       ...data,
     };
     addMuteAsync(payload);
-    if (isSuccessPost) {
-      closeModal();
-    }
+    closeModal();
   };
   const onEdit = data => {
     const payload = {
@@ -101,15 +92,11 @@ const page = () => {
       ...data,
     };
     editMuteAsync(payload);
-    if (isSuccessEdit) {
-      closeModal();
-    }
+    closeModal();
   };
   const onDelete = () => {
     deleteMuteAsync();
-    if (isSuccessDelete) {
-      closeModal();
-    }
+    closeModal();
   };
   if (isSuccessPost) {
     refetch();
@@ -180,7 +167,7 @@ const page = () => {
                     {...register("name")}
                   />
                   <BasicSelect
-                    label="Select Restaurant"
+                    label="Select Owner"
                     options={ownerList?.data.map(item => {
                       return { value: item.id, label: item.full_name };
                     })}
@@ -213,7 +200,7 @@ const page = () => {
                     {...register("name")}
                   />
                   <BasicSelect
-                    label="Select Restaurant"
+                    label="Select Owner"
                     options={ownerList?.data.map(item => {
                       return { value: item.id, label: item.full_name };
                     })}
@@ -321,7 +308,7 @@ const RestaurantListPageStyle = styled.div`
                   
                     display: flex;
                     flex-direction: column;
-
+                    gap: 20px;
                     label{
                         font-size: 14px;
                         color: #0b0b0b;

@@ -81,3 +81,15 @@ export const useGetEmployeeListQuery = (id = "") => {
 export const useAddEmployeeMutation = () => {
   return useCustomMutation(endpoints.addEmployee, "add employee");
 };
+
+export const useDeleteEmployeeMutation = id => {
+  return useCustomMutationDelete(
+    endpoints.deleteEmployee,
+    "delete employee",
+    id
+  );
+};
+
+export const useEditEmployeeMutation = id => {
+  return useCustomMutationPut(endpoints.editEmployee, "edit employee", id);
+};

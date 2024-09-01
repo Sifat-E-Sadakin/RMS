@@ -2,7 +2,7 @@ export const endpoints = {
   login: "/authentication/v1/login/",
   restaurantList: "/restaurant/v1/restaurant",
   addRestaurant: "/restaurant/v1/restaurant/",
-  ownerList: "/user/v1/list",
+  ownerList: "/user/v1/list/?page=2&page_size=100",
   editRestaurant: "/restaurant/v1/restaurant",
   deleteRestaurant: "/restaurant/v1/restaurant",
   menuList: "/restaurant/v1/menu",
@@ -16,4 +16,6 @@ export const endpoints = {
   editMenuItem: "/restaurant/v1/menu_item",
   employeeList: "/restaurant/v1/employee",
   addEmployee: "/restaurant/v1/employee/",
+  deleteEmployee: "/restaurant/v1/employee",
+  editEmployee: "/restaurant/v1/employee",
 };

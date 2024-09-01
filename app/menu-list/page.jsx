@@ -86,6 +86,7 @@ const page = () => {
       ...data,
     };
     createdMuteAsync(payload);
+    closeModal();
   };
 
   const onEdit = data => {
@@ -94,10 +95,12 @@ const page = () => {
       ...data,
     };
     editMuteAsync(payload);
+    closeModal();
   };
 
   const onDelete = () => {
     deleteMutedAsync();
+    closeModal();
   };
 
   if (isSuccessEditMenu) {
