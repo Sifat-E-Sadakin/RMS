@@ -31,7 +31,7 @@ const page = () => {
           item.user.full_name,
           item.salary,
           item.user.email,
-          "action",
+          "actionView",
         ];
       });
       setTableData(data);

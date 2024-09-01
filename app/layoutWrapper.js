@@ -13,11 +13,11 @@ import { get } from "react-hook-form";
 
 const LayoutWrapper = ({ children }) => {
   const queryClient = new QueryClient();
-  const [pathName, setPathName] = useState(usePathname());
+  const [pathName, setPathName] = useState("");
   const path = usePathname();
   useEffect(() => {
     setPathName(path);
-  }, [pathName, path]);
+  }, [path]);
 
   console.log(pathName);
   return (

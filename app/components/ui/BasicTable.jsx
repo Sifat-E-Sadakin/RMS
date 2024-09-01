@@ -20,7 +20,7 @@ const BasicTable = props => {
           {props.tableData.map((item, idx) => (
             <TrStyle key={idx} $idx={idx}>
               {item.map((data, index) => (
-                <React.Fragment>
+                <React.Fragment key={index}>
                   {index !== 0 && (
                     <td key={index}>
                       {data === "action" ? (
@@ -36,6 +36,15 @@ const BasicTable = props => {
                         <Link href={`/menu-item-details/${item[0]}`}>
                           <FaEye />
                         </Link>
+                      ) : data === "actionView" ? (
+                        <>
+                          <Link href={`/employee-profile/${item[0]}`}>
+                            <FaEye />
+                          </Link>
+                          <RiDeleteBinLine
+                            onClick={() => props.openModal("delete", item[0])}
+                          />
+                        </>
                       ) : (
                         data
                       )}

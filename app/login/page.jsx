@@ -2,6 +2,7 @@
 import React, { use } from "react";
 import styled from "styled-components";
 import logo from "../../public/logo.png";
+
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -43,6 +44,15 @@ const page = () => {
   }
   return (
     <LoginStyle>
+      <div className="login-image">
+        <Image
+          src="/login_bg.png"
+          fill
+          sizes="100vw"
+          alt="logo"
+          className="bg-image"
+        />
+      </div>
       <div className="login-box-wrapper">
         <div className="login-box">
           <h1>Login</h1>
@@ -86,9 +96,20 @@ const page = () => {
 };
 
 const LoginStyle = styled.div`
-    background-image: url('/login_bg.png');
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    .login-image{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      .bg-image{
+        object-fit: cover;
+        object-position: center;
+        width: 100%;
+        height: 100%;
+      }
+    }
     height: 100vh;
     display: flex;
     justify-content: center;

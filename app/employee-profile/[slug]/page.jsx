@@ -1,22 +1,17 @@
 "use client";
 import React from "react";
 import styled from "styled-components";
-import BaseUI from "../components/ui/BaseUI";
-import DangerBtn from "../components/styles/DangerBtn";
-import logo from "../../public/logo.png";
+import BaseUI from "@/app/components/ui/BaseUI";
+import DangerBtn from "@/app/components/styles/DangerBtn";
+import logo from "@/public/logo.png";
 import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useGetEmployeeListQuery } from "@/store/store";
 
 const page = () => {
-  const employeeInfo = {
-    restaurant_name: "KFC",
-    img: logo,
-    name: "John Doe",
-    phone: "1234567890",
-    email: "john@gmail.com",
-    salary: "50000",
-    date_of_birth: "01/01/1990",
-    userName: "john doe",
-  };
+  const id = useParams().slug;
+  const { data: employeeInfo } = useGetEmployeeListQuery(id);
+  console.log(employeeInfo);
   return (
     <EmployeeProfileStyle>
       <BaseUI>
@@ -29,30 +24,38 @@ const page = () => {
         </div>
         <div className="info-wrapper">
           <h1>
-            Restaurant Name : <span>{employeeInfo.restaurant_name}</span>
+            Restaurant Name : <span>{employeeInfo?.restaurant}</span>
           </h1>
           <div className="info-box">
             <div className="img-box">
-              <Image src={employeeInfo.img} alt="" />
+              <Image src={employeeInfo?.img} alt="" />
             </div>
             <div className="info">
               <h2>
-                Name : <span>{employeeInfo.name}</span>
+                Name : <span>{employeeInfo?.user.full_name}</span>
               </h2>
               <h2>
-                Phone : <span>{employeeInfo.phone}</span>
+                Phone :{" "}
+                <span>
+                  {employeeInfo?.phone ? employeeInfo.phone : "Not Available"}
+                </span>
               </h2>
               <h2>
-                Email : <span>{employeeInfo.email}</span>
+                Email : <span>{employeeInfo?.user.email}</span>
               </h2>
               <h2>
-                Salary : <span>{employeeInfo.salary}</span>
+                Salary : <span>{employeeInfo?.salary}</span>
               </h2>
               <h2>
-                Date of Birth : <span>{employeeInfo.date_of_birth}</span>
+                Date of Birth :{" "}
+                <span>
+                  {employeeInfo?.user.birth_date
+                    ? employeeInfo?.user.birth_date
+                    : "Not Available"}
+                </span>
               </h2>
               <h2>
-                Username : <span>{employeeInfo.userName}</span>
+                Username : <span>{employeeInfo?.user.username}</span>
               </h2>
             </div>
           </div>
