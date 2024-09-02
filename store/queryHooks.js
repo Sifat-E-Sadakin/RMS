@@ -23,14 +23,31 @@ const queryFetcher = async url => {
 ////////////////////////////// Http GET Requests //////////////////////////////
 
 export const useCustomQuery = (queryKey, url, id) => {
-  const { isPending, data, error, refetch } = useQuery({
-    queryKey: [`${queryKey}`],
-    queryFn: () =>
-      queryFetcher(
-        `${process.env.NEXT_PUBLIC_HOST_API}${url}/${id}${id ? "/" : ""}`
-      ),
-  });
-  return { isPending, data, error, refetch };
+  if (id === "?page_size=100") {
+    const { isPending, data, error, refetch } = useQuery({
+      queryKey: [`${queryKey}`],
+      queryFn: () =>
+        queryFetcher(`${process.env.NEXT_PUBLIC_HOST_API}${url}/${id}`),
+    });
+    return { isPending, data, error, refetch };
+  } else {
+    const { isPending, data, error, refetch } = useQuery({
+      queryKey: [`${queryKey}`],
+      queryFn: () =>
+        queryFetcher(
+          `${process.env.NEXT_PUBLIC_HOST_API}${url}/${id}${id ? "/" : ""}`
+        ),
+    });
+    return { isPending, data, error, refetch };
+  }
+  // const { isPending, data, error, refetch } = useQuery({
+  //   queryKey: [`${queryKey}`],
+  //   queryFn: () =>
+  //     queryFetcher(
+  //       `${process.env.NEXT_PUBLIC_HOST_API}${url}/${id}${id ? "/" : ""}`
+  //     ),
+  // });
+  // return { isPending, data, error, refetch };
 };
 
 ////////////////////////////// Http POST Requests //////////////////////////////

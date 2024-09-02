@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 const Breadcrumb = () => {
   const pathname = usePathname();
-  console.log(pathname);
+
   const bread = pathname.split("/").filter(item => item !== "");
   const upperCase = bread.map(
     item => item.charAt(0).toUpperCase() + item.slice(1)

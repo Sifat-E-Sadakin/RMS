@@ -53,7 +53,7 @@ const page = () => {
     isPending,
     refetch,
   } = useGetRestaurantListQuery();
-  const { data: ownerList } = useGetOwnerListQuery();
+  const { data: ownerList } = useGetOwnerListQuery("?page_size=100");
   const {
     data: addData,
     mutateAsync: addMuteAsync,

@@ -9,7 +9,7 @@ export const endpoints = {
   editRestaurant: "/restaurant/v1/restaurant",
 
   //////////////////////// Owner Endpoints ////////////////////////
-  ownerList: "/user/v1/list/?page=2&page_size=100",
+  ownerList: "/user/v1/list",
 
   //////////////////////// Menu Endpoints ////////////////////////
   menuList: "/restaurant/v1/menu",
