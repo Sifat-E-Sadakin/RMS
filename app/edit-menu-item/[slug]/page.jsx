@@ -13,42 +13,51 @@ import {
   useEditMenuItemMutation,
   useGetMenuListQuery,
 } from "@/store/store";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-// const schema = yup
-//   .object({
-//     menu: yup.string(),
-//     name: yup.string(),
-//     price: yup.number(),
-//     image: yup.string(),
-//     is_vegetarian: yup.boolean(),
-//     is_gluten_free: yup.boolean(),
-//     is_available: yup.boolean(),
-//     description: yup.string(),
-//   })
-//   .required();
+const schema = yup
+  .object({
+    menu: yup.string().required(),
+    name: yup.string().required(),
+    price: yup.number().required(),
+    is_vegetarian: yup.boolean().required(),
+    is_gluten_free: yup.boolean().required(),
+    is_available: yup.boolean().required(),
+    description: yup.string().required(),
+  })
+  .required();
 
 const page = () => {
   const [menuList, setMenuList] = useState([]);
   const { data: menuListData } = useGetMenuListQuery();
   const id = useParams().slug;
-  const { data: EditMenuItemData, mutateAsync } = useEditMenuItemMutation(id);
+  const {
+    data: EditMenuItemData,
+    mutateAsync,
+    isSuccess,
+  } = useEditMenuItemMutation(id);
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
 
   const onCreate = data => {
     mutateAsync(data);
   };
-  console.log(menuList);
+
+  isSuccess && useRouter().push("/menu-list");
+
   useEffect(() => {
     if (menuListData) {
       setMenuList(menuListData);
     }
   }, [menuListData]);
+
   return (
     <EditMenuItemStyle>
       <BaseUI>
@@ -57,23 +66,32 @@ const page = () => {
         </div>
         <form onSubmit={handleSubmit(onCreate)}>
           <div className="upper-form-fields">
-            <BasicSelect
-              label="Menu"
-              options={menuList.map(item => {
-                return { value: item.id, label: item.name };
-              })}
-              register={{ ...register("menu") }}
-            />
-            <BasicInput
-              label="Menu Item"
-              type="text"
-              register={{ ...register("name") }}
-            />
-            <BasicInput
-              label="Price"
-              type="number"
-              register={{ ...register("price") }}
-            />
+            <div>
+              <BasicSelect
+                label="Menu"
+                options={menuList.map(item => {
+                  return { value: item.id, label: item.name };
+                })}
+                register={{ ...register("menu") }}
+              />
+              <p>{errors.menu?.message}</p>
+            </div>
+            <div>
+              <BasicInput
+                label="Menu Item"
+                type="text"
+                register={{ ...register("name") }}
+              />
+              <p>{errors.name?.message}</p>
+            </div>
+            <div>
+              <BasicInput
+                label="Price"
+                type="number"
+                register={{ ...register("price") }}
+              />
+              <p>{errors.price?.message}</p>
+            </div>
           </div>
           <div className="upload-box">
             <BasicInput
@@ -89,16 +107,19 @@ const page = () => {
                 type="checkbox"
                 register={{ ...register("is_vegetarian") }}
               />
+              <p>{errors.is_vegetarian?.message}</p>
               <BasicInput
                 label="Is Gluten Free"
                 type="checkbox"
                 register={{ ...register("is_gluten_free") }}
               />
+              <p>{errors.is_gluten_free?.message}</p>
               <BasicInput
                 label="Is Available"
                 type="checkbox"
                 register={{ ...register("is_available") }}
               />
+              <p>{errors.is_available?.message}</p>
             </div>
           </div>
           <div className="lower-fields">
@@ -107,6 +128,7 @@ const page = () => {
               type="text"
               register={{ ...register("description") }}
             />
+            <p>{errors.description?.message}</p>
           </div>
           <div className="btn-box">
             <button className="custom-btn" type="submit">
@@ -129,6 +151,10 @@ const EditMenuItemStyle = styled.div`
         }
     }
     form{
+        p{
+            color: red;
+            font-size: 12px;    
+        }
         .upper-form-fields{
             display: grid;
             grid-template-columns: repeat(3, 1fr);

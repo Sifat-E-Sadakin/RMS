@@ -83,20 +83,6 @@ const BasicTableStyle = styled.div`
              }
           }
         }
-        /* tbody{
-            tr{
-                border: 1px solid #a19c9c;
-                td {
-                    padding: 18px 0;
-                    font-size: 14px;
-                    color: #0b0b0b;
-                    font-weight: 400;
-                    border: 1px solid #a19c9c;
-                    text-align: center;
-                }
-            }
-        } */
-
     }
 `;
 
@@ -113,7 +99,7 @@ const TrStyle = styled.tr`
           props.$idx % 2 === 0 ? "#f7f7fa" : "#ffffff"};
         svg{
             font-size: 18px;
-            color: #0b0b0b;
+            color: #0b0b0b; 
             margin: 0 8px;
             cursor: pointer;
         }

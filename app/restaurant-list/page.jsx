@@ -25,6 +25,7 @@ import BasicSelect from "../components/ui/BasicSelect";
 const schema = yup
   .object({
     name: yup.string().required(),
+    owner: yup.string().required(),
   })
   .required();
 
@@ -41,6 +42,7 @@ const page = () => {
       setRestaurantId(id);
     }
   };
+
   const closeModal = () => setShow(false);
 
   const tableHeader = ["Restaurant Name", "Action"];
@@ -67,9 +69,7 @@ const page = () => {
     mutateAsync: deleteMuteAsync,
     isSuccess: isSuccessDelete,
   } = useDeleteRestaurantMutation(restaurantId);
-  console.log(restaurantList?.data);
-  console.log(ownerList?.data);
-  console.log(data);
+
   const {
     register,
     handleSubmit,
@@ -77,15 +77,16 @@ const page = () => {
   } = useForm({
     resolver: yupResolver(schema),
   });
+
   const onSubmit = data => {
     const payload = {
       is_active: true,
-
       ...data,
     };
     addMuteAsync(payload);
     closeModal();
   };
+
   const onEdit = data => {
     const payload = {
       is_active: true,
@@ -94,10 +95,12 @@ const page = () => {
     editMuteAsync(payload);
     closeModal();
   };
+
   const onDelete = () => {
     deleteMuteAsync();
     closeModal();
   };
+
   if (isSuccessPost) {
     refetch();
   }
@@ -166,6 +169,7 @@ const page = () => {
                     placeholder="Name"
                     {...register("name")}
                   />
+                  <p>{errors.name?.message}</p>
                   <BasicSelect
                     label="Select Owner"
                     options={ownerList?.data.map(item => {
@@ -173,6 +177,7 @@ const page = () => {
                     })}
                     register={{ ...register("owner") }}
                   />
+                  <p>{errors.owner?.message}</p>
                 </div>
 
                 <div className="btn-wrapper">
@@ -199,6 +204,7 @@ const page = () => {
                     placeholder="Name"
                     {...register("name")}
                   />
+                  <p>{errors.name?.message}</p>
                   <BasicSelect
                     label="Select Owner"
                     options={ownerList?.data.map(item => {
@@ -206,6 +212,7 @@ const page = () => {
                     })}
                     register={{ ...register("owner") }}
                   />
+                  <p>{errors.owner?.message}</p>
                 </div>
 
                 <div className="btn-wrapper">
@@ -304,6 +311,10 @@ const RestaurantListPageStyle = styled.div`
         .modal-body{
             margin-top: 20px;
             form{
+              p{
+                font-size: 12px;
+                color: red;
+              }
                 .form-group{
                   
                     display: flex;

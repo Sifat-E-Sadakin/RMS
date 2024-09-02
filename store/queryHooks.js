@@ -1,7 +1,9 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
+import { redirect, useRouter } from "next/navigation";
+import { use } from "react";
 
-export const username = Cookies.get("username");
+const navigate = redirect;
 
 const queryFetcher = async url => {
   const accessToken = Cookies.get("access");
@@ -18,6 +20,8 @@ const queryFetcher = async url => {
   return response.json();
 };
 
+////////////////////////////// Http GET Requests //////////////////////////////
+
 export const useCustomQuery = (queryKey, url, id) => {
   const { isPending, data, error, refetch } = useQuery({
     queryKey: [`${queryKey}`],
@@ -28,6 +32,8 @@ export const useCustomQuery = (queryKey, url, id) => {
   });
   return { isPending, data, error, refetch };
 };
+
+////////////////////////////// Http POST Requests //////////////////////////////
 
 export const useCustomMutation = (url, key) => {
   const accessToken = Cookies.get("access");
@@ -57,12 +63,26 @@ export const useCustomMutation = (url, key) => {
             "Content-Type": "application/json",
           },
         }).then(res => res.json()),
-      onSuccess: data => {
+      onSuccess: async data => {
         console.log("success", data);
+        if (data.access) {
+          Cookies.set("access", data.access);
+          Cookies.set("refresh", data.refresh);
+          try {
+            redirect("/restaurant-list");
+          } catch (e) {
+            console.log(e);
+          }
+        } else {
+          alert("Invalid Credentials or User does not exist");
+          window.location.reload();
+        }
       },
     });
   }
 };
+
+////////////////////////////// Http PUT Requests //////////////////////////////
 
 export const useCustomMutationPut = (url, key, id) => {
   const accessToken = Cookies.get("access");
@@ -81,6 +101,8 @@ export const useCustomMutationPut = (url, key, id) => {
     },
   });
 };
+
+////////////////////////////// Http DELETE Requests //////////////////////////////
 
 export const useCustomMutationDelete = (url, key, id) => {
   const accessToken = Cookies.get("access");

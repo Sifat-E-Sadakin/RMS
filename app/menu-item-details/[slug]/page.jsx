@@ -16,6 +16,7 @@ const page = () => {
   const [itemInfo, setItemInfo] = useState({});
   const [itemId, setItemId] = useState("");
   const id = useParams().slug;
+
   const { data, refetch } = useGetMenuItemDetailsQuery(id);
   const {
     data: deleteItemData,
@@ -37,7 +38,6 @@ const page = () => {
       setItemId(data.id);
     }
   }, [data]);
-  console.log(itemInfo);
 
   return (
     <MenuItemDetailsStyle>
@@ -132,7 +132,7 @@ const MenuItemDetailsStyle = styled.div`
         display: flex;
         gap: 20px;
         .img-box {
-            width: auto;
+            width: 84px ;
             height: 84px;
             img {
             width: 100%;

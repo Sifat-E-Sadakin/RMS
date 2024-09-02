@@ -20,8 +20,6 @@ const LayoutWrapper = ({ children }) => {
     setPathName(path);
   }, [path, pathName]);
 
-  console.log(pathName);
-
   const logout = () => {
     console.log("logout");
     Cookies.remove("access");
@@ -29,6 +27,7 @@ const LayoutWrapper = ({ children }) => {
     Cookies.remove("username");
     window.location.href = "/login";
   };
+
   return (
     <LayoutWrapperStyle $hide={pathName === "/login"}>
       <QueryClientProvider client={queryClient}>

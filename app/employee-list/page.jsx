@@ -26,11 +26,11 @@ const page = () => {
     mutateAsync: deleteMuteAsync,
     isSuccess: isSuccessDelete,
   } = useDeleteEmployeeMutation(employeeId);
+
   const openModal = (name, id) => {
     setShow(true);
     setModalName(name);
     setEmployeeId(id);
-    console.log(name);
   };
   const closeModal = () => setShow(false);
 
@@ -58,7 +58,7 @@ const page = () => {
       setTableData(data);
     }
   }, [employeeList]);
-  console.log(employeeList);
+
   return (
     <EmployeeListPageStyle>
       <BaseUI>

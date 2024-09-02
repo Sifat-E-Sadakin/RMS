@@ -11,17 +11,8 @@ import DangerBtn from "../components/styles/DangerBtn";
 import DisableBtn from "../components/styles/DisableBtn";
 import BasicSelect from "../components/ui/BasicSelect";
 import BasicInput from "../components/ui/BasicInput";
-import { set, useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import { useGetMenuItemListQuery } from "@/store/store";
 import Link from "next/link";
-
-const schema = yup
-  .object({
-    name: yup.string().required(),
-  })
-  .required();
 
 const page = () => {
   const [modalName, setModalName] = useState("");
@@ -29,22 +20,8 @@ const page = () => {
   const [tableData, setTableData] = useState([]);
 
   const { data: menuItemList, refetch } = useGetMenuItemListQuery();
-  const openModal = name => {
-    setShow(true);
-    setModalName(name);
-    console.log(name);
-  };
-  const closeModal = () => setShow(false);
 
   const tableHeader = ["Menu", "Menu Item", "Description", "Action"];
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
-  });
 
   useEffect(() => {
     if (menuItemList) {
@@ -81,95 +58,10 @@ const page = () => {
             </div>
           </div>
           <div className="table-section">
-            <BasicTable
-              tableHeader={tableHeader}
-              tableData={tableData}
-              openModal={openModal}
-            />
+            <BasicTable tableHeader={tableHeader} tableData={tableData} />
           </div>
         </div>
       </BaseUI>
-      {modalName === "create" ? (
-        <BasicModal show={show} closeModal={closeModal}>
-          <div className="modal-content-wrapper">
-            <div className="modal-header">
-              <h2>Create Restaurant</h2>
-              <button onClick={() => closeModal()}>X</button>
-            </div>
-            <div className="modal-body">
-              <form>
-                <div className="form-group">
-                  <BasicSelect
-                    label="Restaurant Name"
-                    options={[
-                      "KFC",
-                      "McDonald",
-                      "Pizza Hut",
-                      "Burger King",
-                      "Domino's Pizza",
-                      "Subway",
-                    ]}
-                  />
-                  <BasicInput label="Menu Name" type="text" />
-                  <BasicInput label="Description" type="text" />
-                </div>
-
-                <div className="btn-wrapper">
-                  <BasicBtn>Save</BasicBtn>
-                </div>
-              </form>
-            </div>
-          </div>
-        </BasicModal>
-      ) : modalName === "edit" ? (
-        <BasicModal show={show} closeModal={closeModal}>
-          <div className="modal-content-wrapper">
-            <div className="modal-header">
-              <h2>Edit Menu</h2>
-              <button onClick={() => closeModal()}>X</button>
-            </div>
-            <div className="modal-body">
-              <form>
-                <div className="form-group">
-                  <BasicSelect
-                    label="Restaurant Name"
-                    options={[
-                      "KFC",
-                      "McDonald",
-                      "Pizza Hut",
-                      "Burger King",
-                      "Domino's Pizza",
-                      "Subway",
-                    ]}
-                  />
-                  <BasicInput label="Menu Name" type="text" />
-                  <BasicInput label="Description" type="text" />
-                </div>
-
-                <div className="btn-wrapper">
-                  <BasicBtn>Update</BasicBtn>
-                </div>
-              </form>
-            </div>
-          </div>
-        </BasicModal>
-      ) : modalName === "delete" ? (
-        <BasicModal show={show} closeModal={closeModal}>
-          <div className="modal-content-wrapper">
-            <div className="modal-header">
-              <h2>Warning</h2>
-              <button onClick={() => closeModal()}>X</button>
-            </div>
-            <div className="modal-body">
-              <p>Are you sure you want to delete this restaurant?</p>
-              <div className="btn-group">
-                <DisableBtn click={() => closeModal()}>Cancel</DisableBtn>
-                <DangerBtn>Delete</DangerBtn>
-              </div>
-            </div>
-          </div>
-        </BasicModal>
-      ) : null}
     </MenuItemStyle>
   );
 };
@@ -221,86 +113,5 @@ const MenuItemStyle = styled.div`
 
     }
   
-    .modal-content-wrapper{
-        .modal-header{
-            display: flex;
-            justify-content: space-between;
-            h2{
-                font-size: 18px;
-                font-weight: 600;
-                color: #0b0b0b;
-            }
-            button{
-                background-color: #f8f7fa;
-                border: none;
-                border-radius: 5px;
-                padding: 5px 10px;
-                cursor: pointer;
-            }
-        }
-        .modal-body{
-            margin-top: 20px;
-            form{
-                .form-group{
-                  
-                    display: flex;
-                    flex-direction: column;
-
-                    label{
-                        font-size: 14px;
-                        color: #0b0b0b;
-                        margin-bottom: 4px;
-                    }
-                    input{
-                        display: flex;
-                        
-                        height: auto;
-                        padding: 10px 14px;
-                        border-radius: 4px;
-                        
-                        font-size: 14px;
-                        font-weight: 300;
-                        color: #1d1d1b;
-                        border: 1px solid #a19c9c;
-                    }
-                }
-                .btn-wrapper{
-                    text-align: center;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    width: calc(100% );
-                    margin-top: 20px;
-                    button{
-                        width: 100%;
-                        height: auto;
-                        background-color: #2963A2;
-                        /* text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
-                        color: #FFFFFF;
-                        font-size: 16px;
-                        font-weight: 600;
-                        border: none;
-                        border-radius: 5px;
-                        cursor: pointer;
-                        transition: 0.3s;
-                        &:hover{
-                            background-color: #1b4f7f;
-                        }
-                    }
-                }
-            }
-            p{
-                font-size: 14px;
-                color: #0b0b0b;
-
-            }
-            .btn-group{
-                display: flex;
-                justify-content: end;
-                gap: 16px;
-                margin-top: 20px;
-
-        }
-    }
-} `;
+ `;
 export default page;

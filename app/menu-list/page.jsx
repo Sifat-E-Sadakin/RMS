@@ -24,7 +24,9 @@ import * as yup from "yup";
 
 const schema = yup
   .object({
+    restaurant: yup.string().required(),
     name: yup.string().required(),
+    description: yup.string().required(),
   })
   .required();
 
@@ -52,25 +54,16 @@ const page = () => {
     mutateAsync: deleteMutedAsync,
     isSuccess: isSuccessDelete,
   } = useDeleteMenuMutation(restaurantId);
+
   const openModal = (name, id) => {
     setShow(true);
     setModalName(name);
     setRestaurantId(id);
   };
+
   const closeModal = () => setShow(false);
 
   const tableHeader = ["Restaurant Name", "Menu Name", "Description", "Action"];
-  // const tableData = [
-  //   ["KFC", "Chicken Bucket", "Chicken Bucket", "action"],
-  //   ["McDonald", "Big Mac", "Big Mac", "action"],
-  //   ["Pizza Hut", "Pepperoni Pizza", "Pepperoni Pizza", "action"],
-  //   ["Burger King", "Whopper", "Whopper", "action"],
-  //   ["Domino's Pizza", "Pepperoni Pizza", "Pepperoni Pizza", "action"],
-  //   ["Subway", "Subway Melt", "Subway Melt", "action"],
-  // ];
-
-  console.log(menuList);
-  console.log(restaurantList);
 
   const {
     register,
@@ -184,16 +177,19 @@ const page = () => {
                     })}
                     register={{ ...register("restaurant") }}
                   />
+                  <p>{errors.restaurant?.message}</p>
                   <BasicInput
                     label="Menu Name"
                     type="text"
                     register={{ ...register("name") }}
                   />
+                  <p>{errors.name?.message}</p>
                   <BasicInput
                     label="Description"
                     type="text"
                     register={{ ...register("description") }}
                   />
+                  <p>{errors.description?.message}</p>
                 </div>
 
                 <div className="btn-wrapper">
@@ -220,16 +216,19 @@ const page = () => {
                     })}
                     register={{ ...register("restaurant") }}
                   />
+                  <p>{errors.restaurant?.message}</p>
                   <BasicInput
                     label="Menu Name"
                     type="text"
                     register={{ ...register("name") }}
                   />
+                  <p>{errors.name?.message}</p>
                   <BasicInput
                     label="Description"
                     type="text"
                     register={{ ...register("description") }}
                   />
+                  <p>{errors.description?.message}</p>
                 </div>
 
                 <div className="btn-wrapper">
@@ -247,7 +246,7 @@ const page = () => {
               <button onClick={() => closeModal()}>X</button>
             </div>
             <div className="modal-body">
-              <p>Are you sure you want to delete this restaurant?</p>
+              <p>Are you sure you want to delete this menu?</p>
               <div className="btn-group">
                 <DisableBtn click={() => closeModal()}>Cancel</DisableBtn>
                 <DangerBtn click={() => onDelete()}>Delete</DangerBtn>
@@ -327,6 +326,10 @@ const MenuListStyle = styled.div`
         .modal-body{
             margin-top: 20px;
             form{
+              p{
+                font-size: 12px;
+                color: red;
+              }
                 .form-group{
                   
                     display: flex;

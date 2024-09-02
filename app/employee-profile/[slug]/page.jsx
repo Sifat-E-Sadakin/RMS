@@ -18,25 +18,29 @@ const page = () => {
   const id = useParams().slug;
   const [modalName, setModalName] = useState("");
   const [show, setShow] = useState(true);
+
   const { data: employeeInfo } = useGetEmployeeListQuery(id);
   const {
     data: deleteEmployee,
     mutateAsync: deleteMuteAsync,
     isSuccess: isSuccessDelete,
   } = useDeleteEmployeeMutation(id);
-  console.log(employeeInfo);
+
   const openModal = name => {
     setShow(true);
     setModalName(name);
   };
+
   const closeModal = () => setShow(false);
 
   const onDelete = () => {
     deleteMuteAsync();
   };
+
   if (isSuccessDelete) {
     useRouter().push("/employee-list");
   }
+
   return (
     <EmployeeProfileStyle>
       <BaseUI>

@@ -49,7 +49,6 @@ const page = () => {
       ...data,
     };
     mutateAsync(payload);
-    console.log(data);
   };
 
   if (isSuccess) {
